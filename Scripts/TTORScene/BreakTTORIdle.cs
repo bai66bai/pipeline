@@ -1,8 +1,7 @@
 using BUT.TTOR.Core;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +24,11 @@ public class BreakTTORIdle : MonoBehaviour
 
     private Coroutine BackCorutine;
 
+    private Coroutine InCorutine;
+
     private HashSet<PuckData> puckSet = new();
+
+    private bool isDone = true;
 
     private void Start()
     {
@@ -36,28 +39,55 @@ public class BreakTTORIdle : MonoBehaviour
 
     void Update()
     {
-        // 检测触摸
-        if (IsNeedHandle)
+        if ((Input.touchCount > 1) && !IsNeedHandle && isDone)
         {
-            bool hasAnyPointInRect = false;
-            // 循环所有的触摸
-            for (int i = 0; i < Input.touchCount; i++)
+            isDone = false;
+            IsNeedHandle = true;
+            if (BackCorutine != null)
+                StopCoroutine(BackCorutine);
+            InCorutine = StartCoroutine(CircularEraseIn());
+
+            foreach (var item in images)
             {
-                Touch touch = Input.GetTouch(i);
-                // 判断触摸是否在UI元素的RectTransform范围内
-                if (RectTransformUtility.RectangleContainsScreenPoint(targetRectTransform, touch.position))
-                {
-                    //将控制开关变为true
-                    hasAnyPointInRect = true;
-                    break;
-                }
-            }
-            if (!hasAnyPointInRect && puckCount == 0)
-            {
-                IsNeedHandle = false;
-                BackCorutine = StartCoroutine(CircularEraseBack());   
+                StartCoroutine(FadeOut(item));
             }
         }
+        else if (IsNeedHandle && Input.touchCount == 0 && isDone && !TTORStore.IsShow)
+        {
+            isDone = false;
+            IsNeedHandle = false;
+            if (InCorutine != null)
+                StopCoroutine(InCorutine);
+            BackCorutine = StartCoroutine(CircularEraseBack());
+
+            foreach (var item in images)
+            {
+                StartCoroutine(FadeIn(item));
+            }
+        }
+
+        // 检测触摸
+        /*        if (IsNeedHandle)
+                {
+                    bool hasAnyPointInRect = false;
+                    // 循环所有的触摸
+                    for (int i = 0; i < Input.touchCount; i++)
+                    {
+                        Touch touch = Input.GetTouch(i);
+                        // 判断触摸是否在UI元素的RectTransform范围内
+                        if (RectTransformUtility.RectangleContainsScreenPoint(targetRectTransform, touch.position))
+                        {
+                            //将控制开关变为true
+                            hasAnyPointInRect = true;
+                            break;
+                        }
+                    }
+                    if (!hasAnyPointInRect && puckCount == 0)
+                    {
+                        IsNeedHandle = false;
+                        BackCorutine = StartCoroutine(CircularEraseBack());   
+                    }
+                }*/
     }
 
 
@@ -68,7 +98,7 @@ public class BreakTTORIdle : MonoBehaviour
             return;
         if (puckCount == 0)
         {
-            if(BackCorutine != null)
+            if (BackCorutine != null)
                 StopCoroutine(BackCorutine);
             StartCoroutine(CircularEraseIn());
 
@@ -89,14 +119,14 @@ public class BreakTTORIdle : MonoBehaviour
 
     public void AnyPuckRemoved(Puck removedPuck)
     {
-        if(puckSet.Contains(removedPuck.Data))
+        if (puckSet.Contains(removedPuck.Data))
         {
             puckSet.Remove(removedPuck.Data);
 
             puckCount--;
         }
-        
-        if (puckCount <1)
+
+        if (puckCount < 1)
         {
             IsNeedHandle = true;
         }
@@ -105,6 +135,7 @@ public class BreakTTORIdle : MonoBehaviour
 
     IEnumerator FadeOut(Image imageToFade)
     {
+
         float counter = 0f;
 
         // 获取Image组件的初始颜色
@@ -122,6 +153,7 @@ public class BreakTTORIdle : MonoBehaviour
         bgImage.enabled = false;
         // 确保alpha值设置为完全透明
         imageToFade.color = new Color(imageColor.r, imageColor.g, imageColor.b, 0);
+        isDone = true;
     }
 
     IEnumerator FadeIn(Image imageToFade)
@@ -140,9 +172,9 @@ public class BreakTTORIdle : MonoBehaviour
             imageToFade.color = new Color(imageColor.r, imageColor.g, imageColor.b, alpha);
             yield return null; // 等待一帧
         }
-
         // 确保alpha值设置为完全透明
         imageToFade.color = new Color(imageColor.r, imageColor.g, imageColor.b, 1.0f);
+        isDone = true;
     }
 
     IEnumerator CircularEraseIn()
@@ -177,11 +209,5 @@ public class BreakTTORIdle : MonoBehaviour
 
         bgMaterial.SetFloat("_Progress", 0f);
 
-        
-
-        foreach (var item in images)
-        {
-            StartCoroutine(FadeIn(item));
-        }
     }
 }

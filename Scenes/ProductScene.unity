@@ -2647,7 +2647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The R&D pipeline includes 22 oncology candidates, spanning monoclonal
+  m_text: 'The R&D pipeline includes 23 oncology candidates, spanning monoclonal
     antibodies,
 
     bispecific antibodies, ADCs, CAR-T therapies and small molecules'
@@ -4932,7 +4932,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 22
+  m_text: 23
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74f9df38687433644bb0668c0a004f61, type: 2}
   m_sharedMaterial: {fileID: 6711455889189652519, guid: 74f9df38687433644bb0668c0a004f61,
@@ -5947,7 +5947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 22
+  m_text: 23
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74f9df38687433644bb0668c0a004f61, type: 2}
   m_sharedMaterial: {fileID: 6711455889189652519, guid: 74f9df38687433644bb0668c0a004f61,

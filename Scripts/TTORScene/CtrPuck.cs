@@ -11,8 +11,10 @@ public class CtrPuck : MonoBehaviour
     public int CompareIndex;
 
     private TTOR_PuckTracker tracker;
-    public ScreenCastBtn ScreenCastBtn;
+    public ScreenCastBtn ScreenCastBtn;  
     public static string currentPuckName = string.Empty;
+
+    private bool needDetectHide = true;
 
     // private CtrBtnActive ctrBthActive;
 
@@ -33,8 +35,12 @@ public class CtrPuck : MonoBehaviour
     void Update()
     {
         // 检测触摸
-        if (IsNeedHandle && Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
+           if(Input.touchCount > 1)
+            {
+                needDetectHide = true;
+            }
             bool flag = false;
             // 循环所有的触摸
             for (int i = 0; i < Input.touchCount; i++)
@@ -43,6 +49,12 @@ public class CtrPuck : MonoBehaviour
                 // 判断触摸是否在UI元素的RectTransform范围内
                 if (RectTransformUtility.RectangleContainsScreenPoint(targetRectTransform, touch.position))
                 {
+                    if(Input.touchCount > 1)
+                    {
+                        TTORStore.IsStartTime = true;
+                        TTORStore.IsShow = true;
+                        PuckDisplay.SetActive(true);
+                    }
                     //将控制开关变为true
                     flag = true;
                 }
@@ -50,19 +62,19 @@ public class CtrPuck : MonoBehaviour
             IsNeedHandle = flag;
             if (!IsNeedHandle) hasExecuted = false;
             //如果有触点  且触点不在范围内就隐藏显示
-            if (!IsNeedHandle)
-            {
-                PuckDisplay.SetActive(false);
-             
-            }
+            //if (!IsNeedHandle)
+            //{
+            //    PuckDisplay.SetActive(false);
+                
+            //}
         }
-        else if (IsNeedHandle && Input.touchCount == 0)
+        else if (needDetectHide && Input.touchCount == 0 && !TTORStore.IsShow)
         {
-
             PuckDisplay.SetActive(false);
             //可以执行按钮操作
             hasExecuted = false;
             IsNeedHandle = false;
+            needDetectHide = false;
         }
     }
 
@@ -98,6 +110,7 @@ public class CtrPuck : MonoBehaviour
     //检测冰壶移动时的效果
     public void PuckMove(Puck puck)
     {
+        Debug.Log("Move");
         if (currentPuckName != string.Empty)
         {
             if (currentPuckName != puck.Data.name) return;

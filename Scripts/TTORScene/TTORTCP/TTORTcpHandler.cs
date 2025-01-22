@@ -5,6 +5,7 @@ using UnityEngine;
 public class TTORTcpHandler : TCPMsgHandler
 {
 
+    public TCPClient client;
     public List<ScreenCastBtn> screenCastBtns;
     public override void HandleMsg(string msg)
     {
@@ -15,6 +16,17 @@ public class TTORTcpHandler : TCPMsgHandler
             {
                 if (t.gameObject.activeInHierarchy && t.enabled)
                 {
+                    t.ChangeImage();
+                    t.IsScreenCasting = true;
+                }
+            });
+        }else if (splitMesg[0] == "centerScreen")
+        {
+            screenCastBtns.ForEach(t =>
+            {
+                if (t.IsScreenCasting == false)
+                {
+                    client.SendMessage($"close:screenCasting-{TTORStore.IP}");
                     t.ChangeImage();
                     t.IsScreenCasting = true;
                 }

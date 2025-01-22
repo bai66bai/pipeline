@@ -23,8 +23,11 @@ public class ScrollMenu : MonoBehaviour, IEndDragHandler, IBeginDragHandler
 
     private readonly List<float> itemCenterPosList = new()
     {
-        1f, 0.89871f, 0.80064f, 0.70156f, 0.59845f, 0.50168f, 0.40257f, 0.30257f, 0.20096f, 0.10131f, 0.002f
+        1f, 0.91619f, 0.83382f, 0.74984f, 0.66675f, 0.58457f, 0.50148f, 0.41840f, 0.33441f, 0.25132f, 0.16733f, 0.08605f, 0
     };
+
+
+  
 
 
     void Awake()

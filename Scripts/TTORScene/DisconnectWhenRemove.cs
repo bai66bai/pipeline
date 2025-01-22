@@ -21,9 +21,9 @@ public class DisconnectWhenRemove : MonoBehaviour
                 break;
             }   
         }
-        if (isOnScreen && Input.touchCount == 0)
+        if (isOnScreen && Input.touchCount == 0 && !TTORStore.IsShow)
         {
-           // onScreenItem.ChangeScreenCast(string.Empty);
+            onScreenItem.ChangeScreenCast(string.Empty);
         }
     }
 }

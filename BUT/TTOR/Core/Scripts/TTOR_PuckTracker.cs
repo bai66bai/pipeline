@@ -30,28 +30,36 @@ namespace BUT.TTOR.Core
         [Header("Tolerances")]
 
         [Tooltip("The maximum amount of touches that are considererd for finding Pucks")]
-        public int MaxTouchCount = 20;
+        //20
+        public int MaxTouchCount = 5;
 
         [Tooltip("[Percentage difference] The length 2 edges of a triangle can differ before they're no longer considered the same.")]
-        public float IsoseclesTriangleTolerance = 0.1f;
+        // 0.5f
+        public float IsoseclesTriangleTolerance = 0.7f;
 
         [Tooltip("[degrees] The amount of degrees an angle can be larger or smaller to be considered the same as the pucks.")]
-        public float AngleTolerance = 5f;
+        //5
+        public float AngleTolerance = 10f;
 
         [Tooltip("[cm²] The amount of square cm a triangle can be larger or smaller to be considered the same as the pucks.")]
-        public float SurfaceTolerance = 10f;
+        //10
+        public float SurfaceTolerance = 15f;
 
         [Tooltip("[seconds] The time a puck needs to be present before it's created.")]
-        public float StagingTime = 0.2f;
+        //0.2f
+        public float StagingTime = 0.1f;
 
         [Tooltip("[seconds] The time a puck is allowed to be lost before it's removed")]
+        //1
         public float LostPuckAllowedRecoveryTime = 1f;
 
         [Tooltip("[pixels] The distance a point can be from another point to be considered the same point.")]
-        public float SamePointTolerance = 40f; // pixelspace
+        //40
+        public float SamePointTolerance = 60f; // pixelspace
 
         [Tooltip("The maximum number of pucks that can be on the screen at the same time.")]
-        public int MaxSimultaniousPucks = 12;
+            //12
+        public int MaxSimultaniousPucks = 1;
 
         [Space(10)]
         [Header("Events")]

@@ -8,5 +8,7 @@ public class TTORStore : MonoBehaviour
 
     public static string IP;
 
-    
+    public static bool IsShow = false;
+
+    public static bool IsStartTime = false;
 }
